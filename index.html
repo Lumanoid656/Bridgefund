@@ -175,28 +175,62 @@ navigator.clipboard.writeText(presaleWallet);
 alert("Wallet copied");
 }
 
-async function connectWallet() {
+async function sendSOL(){
 
-provider = getProvider();
-
-if (!provider) {
-
-alert("No wallet found. Install Phantom or Solflare.");
-
+if(!provider){
+alert("Connect wallet first");
 return;
-
 }
 
-try {
+if(Date.now() < presaleStart){
+alert("Presale not open yet");
+return;
+}
 
-const response = await provider.connect();
+const amount = document.getElementById("amount").value;
 
-document.getElementById("wallet").innerText =
-"Connected: " + response.publicKey.toString();
+if(!amount){
+alert("Enter SOL amount");
+return;
+}
 
-} catch (err) {
+if(amount < MIN_BUY){
+alert("Minimum buy is 0.2 SOL");
+return;
+}
 
-alert("Wallet connection failed");
+if(amount > MAX_BUY){
+alert("Maximum buy is 5 SOL");
+return;
+}
+
+if(!confirm("Confirm sending SOL to BridgeFund presale?")){
+return;
+}
+
+const connection = new solanaWeb3.Connection(
+solanaWeb3.clusterApiUrl("mainnet-beta")
+);
+
+const transaction = new solanaWeb3.Transaction();
+
+const instruction = solanaWeb3.SystemProgram.transfer({
+fromPubkey: provider.publicKey,
+toPubkey: new solanaWeb3.PublicKey(presaleWallet),
+lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
+});
+
+transaction.add(instruction);
+
+try{
+
+await provider.signAndSendTransaction(transaction);
+
+alert("Transaction sent successfully");
+
+}catch(e){
+
+alert("Transaction failed");
 
 }
 
