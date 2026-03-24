@@ -1,0 +1,288 @@
+<script>
+
+// ---------------------
+// CONFIG
+// ---------------------
+
+const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n";
+
+const presaleGoal = 30000;
+
+const MIN_BUY = 0.2;
+const MAX_BUY = 5;
+
+const presaleStart = new Date("2026-06-01T00:00:00Z").getTime();
+
+let provider = null;
+
+
+// ---------------------
+// WALLET DETECTION
+// ---------------------
+
+function getProvider(){
+
+if("solana" in window){
+
+const anyProvider = window.solana;
+
+if(anyProvider.isPhantom){
+return anyProvider;
+}
+
+}
+
+if(window.solflare){
+return window.solflare;
+}
+
+return null;
+
+}
+
+
+// ---------------------
+// COPY WALLET
+// ---------------------
+
+function copyWallet(){
+
+navigator.clipboard.writeText(presaleWallet);
+
+alert("Wallet copied");
+
+}
+
+
+// ---------------------
+// CONNECT WALLET
+// ---------------------
+
+async function connectWallet(){
+
+provider = getProvider();
+
+if(!provider){
+
+alert("Install Phantom or Solflare wallet");
+
+return;
+
+}
+
+try{
+
+const response = await provider.connect();
+
+document.getElementById("wallet").innerText =
+"Connected: " + response.publicKey.toString();
+
+}catch(err){
+
+alert("Wallet connection failed");
+
+}
+
+}
+
+
+// ---------------------
+// BUY FUNCTION
+// ---------------------
+
+async function sendSOL(){
+
+if(!provider){
+alert("Connect wallet first");
+return;
+}
+
+if(Date.now() < presaleStart){
+alert("Presale not open yet");
+return;
+}
+
+const amount = document.getElementById("amount").value;
+
+if(!amount){
+alert("Enter SOL amount");
+return;
+}
+
+if(amount < MIN_BUY){
+alert("Minimum buy is 0.2 SOL");
+return;
+}
+
+if(amount > MAX_BUY){
+alert("Maximum buy is 5 SOL");
+return;
+}
+
+if(!confirm("Confirm sending SOL to BridgeFund presale?")){
+return;
+}
+
+const connection = new solanaWeb3.Connection(
+solanaWeb3.clusterApiUrl("mainnet-beta")
+);
+
+const transaction = new solanaWeb3.Transaction();
+
+const instruction = solanaWeb3.SystemProgram.transfer({
+
+fromPubkey: provider.publicKey,
+toPubkey: new solanaWeb3.PublicKey(presaleWallet),
+lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
+
+});
+
+transaction.add(instruction);
+
+try{
+
+await provider.signAndSendTransaction(transaction);
+
+alert("Transaction sent successfully");
+
+}catch(e){
+
+alert("Transaction failed");
+
+}
+
+}
+
+
+// ---------------------
+// COUNTDOWN TIMER
+// ---------------------
+
+function updateCountdown(){
+
+const now = new Date().getTime();
+
+const distance = presaleStart - now;
+
+if(distance <= 0){
+
+document.getElementById("countdown").innerText =
+"Presale LIVE";
+
+return;
+
+}
+
+const days = Math.floor(distance / (1000*60*60*24));
+const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+document.getElementById("countdown").innerText =
+days+"d "+hours+"h "+minutes+"m "+seconds+"s";
+
+}
+
+
+// ---------------------
+// PRESALE TRACKER
+// ---------------------
+
+async function updatePresale(){
+
+try{
+
+const connection = new solanaWeb3.Connection(
+solanaWeb3.clusterApiUrl("mainnet-beta")
+);
+
+const pubKey = new solanaWeb3.PublicKey(presaleWallet);
+
+const balance = await connection.getBalance(pubKey);
+
+const sol = balance / solanaWeb3.LAMPORTS_PER_SOL;
+
+
+// fetch live SOL price
+const priceResponse = await fetch(
+"https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
+);
+
+const priceData = await priceResponse.json();
+
+const solPrice = priceData.solana.usd;
+
+const raised = sol * solPrice;
+
+document.getElementById("raised").innerText =
+"$"+raised.toFixed(2)+" raised";
+
+const percent = (raised / presaleGoal) * 100;
+
+document.getElementById("progress-bar").style.width =
+percent + "%";
+
+}catch(e){
+
+console.log("Price fetch failed");
+
+}
+
+}
+
+
+// ---------------------
+// RECENT BUYERS
+// ---------------------
+
+async function loadBuyers(){
+
+try{
+
+const connection = new solanaWeb3.Connection(
+solanaWeb3.clusterApiUrl("mainnet-beta")
+);
+
+const pubKey = new solanaWeb3.PublicKey(presaleWallet);
+
+const signatures = await connection.getSignaturesForAddress(pubKey,{limit:5});
+
+let list = document.getElementById("buyers");
+
+list.innerHTML = "";
+
+signatures.forEach(tx => {
+
+let item = document.createElement("li");
+
+item.innerText =
+"Buyer tx: " + tx.signature.substring(0,10) + "...";
+
+list.appendChild(item);
+
+});
+
+}catch(e){}
+
+}
+
+
+// ---------------------
+// INITIALIZE PAGE
+// ---------------------
+
+document.getElementById("walletAddress").innerText =
+presaleWallet;
+
+updateCountdown();
+updatePresale();
+loadBuyers();
+
+setInterval(updateCountdown,1000);
+setInterval(updatePresale,60000);
+setInterval(loadBuyers,30000);
+
+</script>
+
+</body>
+</html>
