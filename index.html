@@ -1,119 +1,161 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BridgeFund ($BRDG)</title>
-  
-<link rel="icon" type="image/png" href="favicon.png">
-
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
-<style>
-body{font-family:Arial;background:#0F172A;color:white;margin:0;text-align:center}
-.banner{width:100%}
-.container{max-width:900px;margin:auto;padding:40px 20px}
-.logo{width:120px;margin-top:20px}
-.card{background:#1E293B;padding:25px;border-radius:10px;margin-top:20px}
-h1{color:#3B82F6}
-h2{color:#3B82F6}
-button{background:#3B82F6;color:white;border:none;padding:15px 25px;font-size:18px;border-radius:6px;cursor:pointer}
-button:hover{background:#2563EB}
-.progress{background:#334155;height:20px;border-radius:10px;overflow:hidden}
-.progress-bar{background:#3B82F6;height:100%;width:0%}
-.wallet{background:#020617;padding:10px;border-radius:6px;word-break:break-all}
-</style>
-</head>
-
-<body>
-
-<div style="background:#1E293B;padding:10px">
-Security Notice: BridgeFund will never change the presale wallet. Always verify the address.
-</div>
-
-<img src="assets/banner.png" class="banner">
-
-<div class="container">
-
-<img src="assets/logo.png" class="logo">
-
-<h1>BridgeFund ($BRDG)</h1>
-<p>Turning crypto donations into real-world support</p>
-
-<button onclick="connectWallet()">Connect Wallet</button>
-<p id="wallet">Wallet not connected</p>
-
-<div class="card">
-<h2>How BridgeFund Works</h2>
-<p>Crypto Donors → BridgeFund → Crypto Converted → Businesses Receive Funding</p>
-</div>
-
-<div class="card">
-<h2>Presale Details</h2>
-<p>Total Supply: 1,000,000,000 BRDG</p>
-<p>Min Buy: 0.2 SOL</p>
-<p>Max Buy: 5 SOL</p>
-<p>Goal: $30,000</p>
-</div>
-  
-<div class="card">
-<h2>Presale Countdown</h2>
-<p id="countdown">Loading...</p>
-</div>
-
-<div class="card">
-<h2>Buy BRDG</h2>
-<input id="amount" type="number" placeholder="SOL amount">
-<br><br>
-<div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
-<br>
-<button onclick="sendSOL()">Buy</button>
-</div>
-
-<div class="card">
-<h2>Transparency</h2>
-<p>Presale Wallet</p>
-<div class="wallet" id="walletAddress">58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n</div>
-<br>
-<button onclick="copyWallet()">Copy Wallet</button>
-</div>
-
-<div class="card">
-<h2>Recent Buyers</h2>
-<ul id="buyers"></ul>
-</div>
-
-<div class="card">
-<h2>Tokenomics</h2>
-<p>40% Presale</p>
-<p>30% Liquidity</p>
-<p>15% Ecosystem</p>
-<p>10% Team Locked</p>
-<p>5% Marketing</p>
-</div>
-
-<div class="card">
-<h2>Roadmap</h2>
-<p>Phase 1 — Token Launch</p>
-<p>Phase 2 — BridgeFund MVP</p>
-<p>Phase 3 — Donation Campaigns</p>
-<p>Phase 4 — Global Expansion</p>
-</div>
-
-<div class="card">
-<h2>Whitepaper</h2>
-<a href="assets/whitepaper.pdf"><button>Download Whitepaper</button></a>
-</div>
-
-</div>
-
-
 <script>
-const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n"
-const presaleGoal = 30000
+
+// ----------------------
+// CONFIG
+// ----------------------
+
+const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n";
+const presaleGoal = 30000;
+
+const MIN_BUY = 0.2;
+const MAX_BUY = 5;
+
 const presaleStart = new Date("2026-06-01T00:00:00Z").getTime();
+
+let provider = null;
+
+
+// ----------------------
+// WALLET DETECTION
+// ----------------------
+
+function getProvider(){
+
+if("solana" in window){
+
+const anyProvider = window.solana;
+
+if(anyProvider.isPhantom){
+return anyProvider;
+}
+
+}
+
+if(window.solflare){
+return window.solflare;
+}
+
+return null;
+
+}
+
+
+// ----------------------
+// COPY WALLET
+// ----------------------
+
+function copyWallet(){
+
+navigator.clipboard.writeText(presaleWallet);
+alert("Wallet copied");
+
+}
+
+
+// ----------------------
+// CONNECT WALLET
+// ----------------------
+
+async function connectWallet(){
+
+provider = getProvider();
+
+if(!provider){
+
+alert("Install Phantom or Solflare wallet");
+
+return;
+
+}
+
+try{
+
+const response = await provider.connect();
+
+document.getElementById("wallet").innerText =
+"Connected: " + response.publicKey.toString();
+
+}catch(err){
+
+alert("Wallet connection failed");
+
+}
+
+}
+
+
+// ----------------------
+// BUY FUNCTION
+// ----------------------
+
+async function sendSOL(){
+
+if(!provider){
+alert("Connect wallet first");
+return;
+}
+
+if(Date.now() < presaleStart){
+alert("Presale not open yet");
+return;
+}
+
+const amount = document.getElementById("amount").value;
+
+if(!amount){
+alert("Enter SOL amount");
+return;
+}
+
+if(amount < MIN_BUY){
+alert("Minimum buy is 0.2 SOL");
+return;
+}
+
+if(amount > MAX_BUY){
+alert("Maximum buy is 5 SOL");
+return;
+}
+
+if(!confirm("Confirm sending SOL to BridgeFund presale?")){
+return;
+}
+
+const connection = new solanaWeb3.Connection(
+solanaWeb3.clusterApiUrl("mainnet-beta")
+);
+
+const transaction = new solanaWeb3.Transaction();
+
+const instruction = solanaWeb3.SystemProgram.transfer({
+
+fromPubkey: provider.publicKey,
+toPubkey: new solanaWeb3.PublicKey(presaleWallet),
+lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
+
+});
+
+transaction.add(instruction);
+
+try{
+
+await provider.signAndSendTransaction(transaction);
+
+alert("Transaction sent successfully");
+
+}catch(e){
+
+alert("Transaction failed");
+
+}
+
+}
+
+
+// ----------------------
+// COUNTDOWN TIMER
+// ----------------------
 
 function updateCountdown(){
 
@@ -139,180 +181,10 @@ days + "d " + hours + "h " + minutes + "m " + seconds + "s";
 
 }
 
-setInterval(updateCountdown,1000);
-updateCountdown();
-let provider = null;
 
-function getProvider() {
-
-if ("solana" in window) {
-
-const anyProvider = window.solana;
-
-if (anyProvider.isPhantom) {
-return anyProvider;
-}
-
-}
-
-if (window.solflare) {
-return window.solflare;
-}
-
-return null;
-
-}
-
-const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n";
-const presaleGoal = 30000;
-const MIN_BUY = 0.2;
-const MAX_BUY = 5;
-
-document.getElementById("walletAddress").innerText = presaleWallet;
-
-function copyWallet(){
-navigator.clipboard.writeText(presaleWallet);
-alert("Wallet copied");
-}
-
-async function sendSOL(){
-
-if(!provider){
-alert("Connect wallet first");
-return;
-}
-
-if(Date.now() < presaleStart){
-alert("Presale not open yet");
-return;
-}
-
-const amount = document.getElementById("amount").value;
-
-if(!amount){
-alert("Enter SOL amount");
-return;
-}
-
-if(amount < MIN_BUY){
-alert("Minimum buy is 0.2 SOL");
-return;
-}
-
-if(amount > MAX_BUY){
-alert("Maximum buy is 5 SOL");
-return;
-}
-
-if(!confirm("Confirm sending SOL to BridgeFund presale?")){
-return;
-}
-
-const connection = new solanaWeb3.Connection(
-solanaWeb3.clusterApiUrl("mainnet-beta")
-);
-
-const transaction = new solanaWeb3.Transaction();
-
-const instruction = solanaWeb3.SystemProgram.transfer({
-fromPubkey: provider.publicKey,
-toPubkey: new solanaWeb3.PublicKey(presaleWallet),
-lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
-});
-
-transaction.add(instruction);
-
-try{
-
-await provider.signAndSendTransaction(transaction);
-
-alert("Transaction sent successfully");
-
-}catch(e){
-
-alert("Transaction failed");
-
-}
-
-}
-
-async function sendSOL(){
-
-if(!provider){
-
-alert("Connect wallet first");
-
-return;
-if(Date.now() < presaleStart){
-
-alert("Presale not open yet");
-
-return;
-
-}
-}
-
-const amount = document.getElementById("amount").value;
-
-if(!amount){
-
-alert("Enter SOL amount");
-
-return;
-
-}
-
-if(amount < MIN_BUY){
-
-alert("Minimum buy is 0.2 SOL");
-
-return;
-
-}
-
-if(amount > MAX_BUY){
-
-alert("Maximum buy is 5 SOL");
-
-return;
-
-}
-
-if(!confirm("Confirm sending SOL to BridgeFund presale?")){
-return;
-}
-
-const connection = new solanaWeb3.Connection(
-solanaWeb3.clusterApiUrl("mainnet-beta")
-);
-
-const transaction = new solanaWeb3.Transaction();
-
-const instruction = solanaWeb3.SystemProgram.transfer({
-
-fromPubkey: provider.publicKey,
-
-toPubkey: new solanaWeb3.PublicKey(presaleWallet),
-
-lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
-
-});
-
-transaction.add(instruction);
-
-try{
-
-await provider.signAndSendTransaction(transaction);
-
-alert("Transaction sent successfully");
-
-}catch(e){
-
-alert("Transaction failed");
-
-}
-
-}
+// ----------------------
+// PRESALE TRACKER
+// ----------------------
 
 async function updatePresale(){
 
@@ -343,6 +215,11 @@ percent + "%";
 }catch(e){}
 
 }
+
+
+// ----------------------
+// RECENT BUYERS
+// ----------------------
 
 async function loadBuyers(){
 
@@ -375,13 +252,19 @@ list.appendChild(item);
 
 }
 
+
+// ----------------------
+// INITIALIZE PAGE
+// ----------------------
+
+document.getElementById("walletAddress").innerText = presaleWallet;
+
+updateCountdown();
 updatePresale();
 loadBuyers();
 
+setInterval(updateCountdown,1000);
 setInterval(updatePresale,30000);
 setInterval(loadBuyers,30000);
 
 </script>
-
-</body>
-</html>
