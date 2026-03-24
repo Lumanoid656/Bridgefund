@@ -111,7 +111,29 @@ Security Notice: BridgeFund will never change the presale wallet. Always verify 
 </div>
 
 <script>
+<script>
 
+let provider = null;
+
+function getProvider() {
+
+if ("solana" in window) {
+
+const anyProvider = window.solana;
+
+if (anyProvider.isPhantom) {
+return anyProvider;
+}
+
+}
+
+if (window.solflare) {
+return window.solflare;
+}
+
+return null;
+
+}
 const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n"
 const presaleGoal = 30000
 const MIN_BUY = 0.2
@@ -124,29 +146,98 @@ navigator.clipboard.writeText(presaleWallet)
 alert("Wallet copied")
 }
 
-async function connectWallet(){
-const provider = window.solana
-if(provider && provider.isPhantom){
-try{
-const response = await provider.connect()
-document.getElementById("wallet").innerText = "Connected: " + response.publicKey.toString()
-}catch(e){alert("Wallet connection failed")}
-}else{alert("Install Phantom wallet")}
+async function connectWallet() {
+
+provider = getProvider();
+
+if (!provider) {
+
+alert("No wallet found. Install Phantom or Solflare.");
+
+return;
+
+}
+
+try {
+
+const response = await provider.connect();
+
+document.getElementById("wallet").innerText =
+"Connected: " + response.publicKey.toString();
+
+} catch (err) {
+
+alert("Wallet connection failed");
+
 }
 
 async function sendSOL(){
 
-const provider = window.solana
-if(!provider){alert("Connect wallet first");return}
+if(!provider){
 
-const amount = document.getElementById("amount").value
+alert("Connect wallet first");
 
-if(amount < MIN_BUY){alert("Minimum buy is 0.2 SOL");return}
-if(amount > MAX_BUY){alert("Maximum buy is 5 SOL");return}
+return;
+
+}
+
+const amount = document.getElementById("amount").value;
+
+if(!amount){
+
+alert("Enter SOL amount");
+
+return;
+
+}
+
+if(amount < MIN_BUY){
+
+alert("Minimum buy is 0.2 SOL");
+
+return;
+
+}
+
+if(amount > MAX_BUY){
+
+alert("Maximum buy is 5 SOL");
+
+return;
+
+}
 
 const connection = new solanaWeb3.Connection(
 solanaWeb3.clusterApiUrl("mainnet-beta")
-)
+);
+
+const transaction = new solanaWeb3.Transaction();
+
+const instruction = solanaWeb3.SystemProgram.transfer({
+
+fromPubkey: provider.publicKey,
+
+toPubkey: new solanaWeb3.PublicKey(presaleWallet),
+
+lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
+
+});
+
+transaction.add(instruction);
+
+try{
+
+await provider.signAndSendTransaction(transaction);
+
+alert("Transaction sent successfully");
+
+}catch(e){
+
+alert("Transaction failed");
+
+}
+
+}
 
 const transaction = new solanaWeb3.Transaction()
 
