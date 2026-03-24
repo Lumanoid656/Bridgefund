@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BridgeFund ($BRDG)</title>
+
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<style>
+body{font-family:Arial;background:#0F172A;color:white;margin:0;text-align:center}
+.banner{width:100%}
+.container{max-width:900px;margin:auto;padding:40px 20px}
+.logo{width:120px;margin-top:20px}
+.card{background:#1E293B;padding:25px;border-radius:10px;margin-top:20px}
+h1{color:#3B82F6}
+h2{color:#3B82F6}
+button{background:#3B82F6;color:white;border:none;padding:15px 25px;font-size:18px;border-radius:6px;cursor:pointer}
+button:hover{background:#2563EB}
+.progress{background:#334155;height:20px;border-radius:10px;overflow:hidden}
+.progress-bar{background:#3B82F6;height:100%;width:0%}
+.wallet{background:#020617;padding:10px;border-radius:6px;word-break:break-all}
+</style>
+</head>
+
+<body>
+
+<div style="background:#1E293B;padding:10px">
+Security Notice: BridgeFund will never change the presale wallet. Always verify the address.
+</div>
+
+<img src="assets/banner.png" class="banner">
+
+<div class="container">
+
+<img src="assets/logo.png" class="logo">
+
+<h1>BridgeFund ($BRDG)</h1>
+<p>Turning crypto donations into real-world support</p>
+
+<button onclick="connectWallet()">Connect Phantom Wallet</button>
+<p id="wallet">Wallet not connected</p>
+
+<div class="card">
+<h2>How BridgeFund Works</h2>
+<p>Crypto Donors → BridgeFund → Crypto Converted → Businesses Receive Funding</p>
+</div>
+
+<div class="card">
+<h2>Presale Details</h2>
+<p>Total Supply: 1,000,000,000 BRDG</p>
+<p>Min Buy: 0.2 SOL</p>
+<p>Max Buy: 5 SOL</p>
+<p>Goal: $30,000</p>
+</div>
+
+<div class="card">
+<h2>Presale Progress</h2>
+<p id="raised">$0 raised</p>
+<div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+</div>
+
+<div class="card">
+<h2>Buy BRDG</h2>
+<input id="amount" type="number" placeholder="SOL amount">
+<br><br>
+<div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
+<br>
+<button onclick="sendSOL()">Buy</button>
+</div>
+
+<div class="card">
+<h2>Transparency</h2>
+<p>Presale Wallet</p>
+<div class="wallet" id="walletAddress">YOUR_PRESALE_WALLET</div>
+<br>
+<button onclick="copyWallet()">Copy Wallet</button>
+</div>
+
+<div class="card">
+<h2>Recent Buyers</h2>
+<ul id="buyers"></ul>
+</div>
+
+<div class="card">
+<h2>Tokenomics</h2>
+<p>40% Presale</p>
+<p>30% Liquidity</p>
+<p>15% Ecosystem</p>
+<p>10% Team Locked</p>
+<p>5% Marketing</p>
+</div>
+
+<div class="card">
+<h2>Roadmap</h2>
+<p>Phase 1 — Token Launch</p>
+<p>Phase 2 — BridgeFund MVP</p>
+<p>Phase 3 — Donation Campaigns</p>
+<p>Phase 4 — Global Expansion</p>
+</div>
+
+<div class="card">
+<h2>Whitepaper</h2>
+<a href="assets/whitepaper.pdf"><button>Download Whitepaper</button></a>
+</div>
+
+</div>
+
+<script>
+
+const presaleWallet = "YOUR_PRESALE_WALLET"
+const presaleGoal = 30000
+const MIN_BUY = 0.2
+const MAX_BUY = 5
+
+document.getElementById("walletAddress").innerText = presaleWallet
+
+function copyWallet(){
+navigator.clipboard.writeText(presaleWallet)
+alert("Wallet copied")
+}
+
+async function connectWallet(){
+const provider = window.solana
+if(provider && provider.isPhantom){
+try{
+const response = await provider.connect()
+document.getElementById("wallet").innerText = "Connected: " + response.publicKey.toString()
+}catch(e){alert("Wallet connection failed")}
+}else{alert("Install Phantom wallet")}
+}
+
+async function sendSOL(){
+
+const provider = window.solana
+if(!provider){alert("Connect wallet first");return}
+
+const amount = document.getElementById("amount").value
+
+if(amount < MIN_BUY){alert("Minimum buy is 0.2 SOL");return}
+if(amount > MAX_BUY){alert("Maximum buy is 5 SOL");return}
+
+const connection = new solanaWeb3.Connection(
+solanaWeb3.clusterApiUrl("mainnet-beta")
+)
+
+const transaction = new solanaWeb3.Transaction()
+
+const instruction = solanaWeb3.SystemProgram.transfer({
+fromPubkey: provider.publicKey,
+toPubkey: new solanaWeb3.PublicKey(presaleWallet),
+lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
+})
+
+transaction.add(instruction)
+
+await provider.signAndSendTransaction(transaction)
+
+alert("Transaction sent")
+}
+
+async function updatePresale(){
+
+try{
+
+const connection = new solanaWeb3.Connection(
+solanaWeb3.clusterApiUrl("mainnet-beta")
+)
+
+const pubKey = new solanaWeb3.PublicKey(presaleWallet)
+
+const balance = await connection.getBalance(pubKey)
+
+const sol = balance / solanaWeb3.LAMPORTS_PER_SOL
+
+const solPrice = 150
+
+const raised = sol * solPrice
+
+document.getElementById("raised").innerText =
+"$" + raised.toFixed(2) + " raised"
+
+const percent = (raised / presaleGoal) * 100
+
+document.getElementById("progress-bar").style.width =
+percent + "%"
+
+}catch(e){}
+
+}
+
+async function loadBuyers(){
+
+try{
+
+const connection = new solanaWeb3.Connection(
+solanaWeb3.clusterApiUrl("mainnet-beta")
+)
+
+const pubKey = new solanaWeb3.PublicKey(presaleWallet)
+
+const signatures = await connection.getSignaturesForAddress(pubKey,{limit:5})
+
+let list = document.getElementById("buyers")
+
+list.innerHTML = ""
+
+signatures.forEach(tx => {
+
+let item = document.createElement("li")
+
+item.innerText =
+"Buyer tx: " + tx.signature.substring(0,10) + "..."
+
+list.appendChild(item)
+
+})
+
+}catch(e){}
+
+}
+
+updatePresale()
+loadBuyers()
+
+setInterval(updatePresale,30000)
+setInterval(loadBuyers,30000)
+
+</script>
+
+</body>
+</html>
