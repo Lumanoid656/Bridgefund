@@ -134,16 +134,17 @@ return window.solflare;
 return null;
 
 }
-const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n"
-const presaleGoal = 30000
-const MIN_BUY = 0.2
-const MAX_BUY = 5
 
-document.getElementById("walletAddress").innerText = presaleWallet
+const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n";
+const presaleGoal = 30000;
+const MIN_BUY = 0.2;
+const MAX_BUY = 5;
+
+document.getElementById("walletAddress").innerText = presaleWallet;
 
 function copyWallet(){
-navigator.clipboard.writeText(presaleWallet)
-alert("Wallet copied")
+navigator.clipboard.writeText(presaleWallet);
+alert("Wallet copied");
 }
 
 async function connectWallet() {
@@ -168,6 +169,8 @@ document.getElementById("wallet").innerText =
 } catch (err) {
 
 alert("Wallet connection failed");
+
+}
 
 }
 
@@ -207,6 +210,10 @@ return;
 
 }
 
+if(!confirm("Confirm sending SOL to BridgeFund presale?")){
+return;
+}
+
 const connection = new solanaWeb3.Connection(
 solanaWeb3.clusterApiUrl("mainnet-beta")
 );
@@ -239,46 +246,31 @@ alert("Transaction failed");
 
 }
 
-const transaction = new solanaWeb3.Transaction()
-
-const instruction = solanaWeb3.SystemProgram.transfer({
-fromPubkey: provider.publicKey,
-toPubkey: new solanaWeb3.PublicKey(presaleWallet),
-lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
-})
-
-transaction.add(instruction)
-
-await provider.signAndSendTransaction(transaction)
-
-alert("Transaction sent")
-}
-
 async function updatePresale(){
 
 try{
 
 const connection = new solanaWeb3.Connection(
 solanaWeb3.clusterApiUrl("mainnet-beta")
-)
+);
 
-const pubKey = new solanaWeb3.PublicKey(presaleWallet)
+const pubKey = new solanaWeb3.PublicKey(presaleWallet);
 
-const balance = await connection.getBalance(pubKey)
+const balance = await connection.getBalance(pubKey);
 
-const sol = balance / solanaWeb3.LAMPORTS_PER_SOL
+const sol = balance / solanaWeb3.LAMPORTS_PER_SOL;
 
-const solPrice = 150
+const solPrice = 150;
 
-const raised = sol * solPrice
+const raised = sol * solPrice;
 
 document.getElementById("raised").innerText =
-"$" + raised.toFixed(2) + " raised"
+"$" + raised.toFixed(2) + " raised";
 
-const percent = (raised / presaleGoal) * 100
+const percent = (raised / presaleGoal) * 100;
 
 document.getElementById("progress-bar").style.width =
-percent + "%"
+percent + "%";
 
 }catch(e){}
 
@@ -290,36 +282,36 @@ try{
 
 const connection = new solanaWeb3.Connection(
 solanaWeb3.clusterApiUrl("mainnet-beta")
-)
+);
 
-const pubKey = new solanaWeb3.PublicKey(presaleWallet)
+const pubKey = new solanaWeb3.PublicKey(presaleWallet);
 
-const signatures = await connection.getSignaturesForAddress(pubKey,{limit:5})
+const signatures = await connection.getSignaturesForAddress(pubKey,{limit:5});
 
-let list = document.getElementById("buyers")
+let list = document.getElementById("buyers");
 
-list.innerHTML = ""
+list.innerHTML = "";
 
 signatures.forEach(tx => {
 
-let item = document.createElement("li")
+let item = document.createElement("li");
 
 item.innerText =
-"Buyer tx: " + tx.signature.substring(0,10) + "..."
+"Buyer tx: " + tx.signature.substring(0,10) + "...";
 
-list.appendChild(item)
+list.appendChild(item);
 
-})
+});
 
 }catch(e){}
 
 }
 
-updatePresale()
-loadBuyers()
+updatePresale();
+loadBuyers();
 
-setInterval(updatePresale,30000)
-setInterval(loadBuyers,30000)
+setInterval(updatePresale,30000);
+setInterval(loadBuyers,30000);
 
 </script>
 
