@@ -1,11 +1,11 @@
-
 <script>
 
-// ----------------------
+// ---------------------
 // CONFIG
-// ----------------------
+// ---------------------
 
 const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n";
+
 const presaleGoal = 30000;
 
 const MIN_BUY = 0.2;
@@ -16,9 +16,9 @@ const presaleStart = new Date("2026-06-01T00:00:00Z").getTime();
 let provider = null;
 
 
-// ----------------------
+// ---------------------
 // WALLET DETECTION
-// ----------------------
+// ---------------------
 
 function getProvider(){
 
@@ -41,21 +41,22 @@ return null;
 }
 
 
-// ----------------------
+// ---------------------
 // COPY WALLET
-// ----------------------
+// ---------------------
 
 function copyWallet(){
 
 navigator.clipboard.writeText(presaleWallet);
+
 alert("Wallet copied");
 
 }
 
 
-// ----------------------
+// ---------------------
 // CONNECT WALLET
-// ----------------------
+// ---------------------
 
 async function connectWallet(){
 
@@ -85,9 +86,9 @@ alert("Wallet connection failed");
 }
 
 
-// ----------------------
+// ---------------------
 // BUY FUNCTION
-// ----------------------
+// ---------------------
 
 async function sendSOL(){
 
@@ -153,9 +154,9 @@ alert("Transaction failed");
 }
 
 
-// ----------------------
+// ---------------------
 // COUNTDOWN TIMER
-// ----------------------
+// ---------------------
 
 function updateCountdown(){
 
@@ -165,26 +166,27 @@ const distance = presaleStart - now;
 
 if(distance <= 0){
 
-document.getElementById("countdown").innerText = "Presale LIVE";
+document.getElementById("countdown").innerText =
+"Presale LIVE";
 
 return;
 
 }
 
-const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+const days = Math.floor(distance / (1000*60*60*24));
 const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
 const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
 const seconds = Math.floor((distance % (1000*60)) / 1000);
 
 document.getElementById("countdown").innerText =
-days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+days+"d "+hours+"h "+minutes+"m "+seconds+"s";
 
 }
 
 
-// ----------------------
+// ---------------------
 // PRESALE TRACKER
-// ----------------------
+// ---------------------
 
 async function updatePresale(){
 
@@ -200,26 +202,38 @@ const balance = await connection.getBalance(pubKey);
 
 const sol = balance / solanaWeb3.LAMPORTS_PER_SOL;
 
-const solPrice = 150;
+
+// fetch live SOL price
+const priceResponse = await fetch(
+"https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
+);
+
+const priceData = await priceResponse.json();
+
+const solPrice = priceData.solana.usd;
 
 const raised = sol * solPrice;
 
 document.getElementById("raised").innerText =
-"$" + raised.toFixed(2) + " raised";
+"$"+raised.toFixed(2)+" raised";
 
 const percent = (raised / presaleGoal) * 100;
 
 document.getElementById("progress-bar").style.width =
 percent + "%";
 
-}catch(e){}
+}catch(e){
+
+console.log("Price fetch failed");
+
+}
 
 }
 
 
-// ----------------------
+// ---------------------
 // RECENT BUYERS
-// ----------------------
+// ---------------------
 
 async function loadBuyers(){
 
@@ -253,18 +267,22 @@ list.appendChild(item);
 }
 
 
-// ----------------------
+// ---------------------
 // INITIALIZE PAGE
-// ----------------------
+// ---------------------
 
-document.getElementById("walletAddress").innerText = presaleWallet;
+document.getElementById("walletAddress").innerText =
+presaleWallet;
 
 updateCountdown();
 updatePresale();
 loadBuyers();
 
 setInterval(updateCountdown,1000);
-setInterval(updatePresale,30000);
+setInterval(updatePresale,60000);
 setInterval(loadBuyers,30000);
 
 </script>
+
+</body>
+</html>
