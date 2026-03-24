@@ -124,7 +124,36 @@ Security Notice: BridgeFund will never change the presale wallet. Always verify 
 
 <script>
 <script>
+const presaleWallet = "YOUR_WALLET"
+const presaleGoal = 30000
+const presaleStart = new Date("2026-06-01T00:00:00Z").getTime();
 
+function updateCountdown(){
+
+const now = new Date().getTime();
+
+const distance = presaleStart - now;
+
+if(distance <= 0){
+
+document.getElementById("countdown").innerText = "Presale LIVE";
+
+return;
+
+}
+
+const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+document.getElementById("countdown").innerText =
+days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+
+}
+
+setInterval(updateCountdown,1000);
+updateCountdown();
 let provider = null;
 
 function getProvider() {
@@ -193,7 +222,13 @@ if(!provider){
 alert("Connect wallet first");
 
 return;
+if(Date.now() < presaleStart){
 
+alert("Presale not open yet");
+
+return;
+
+}
 }
 
 const amount = document.getElementById("amount").value;
