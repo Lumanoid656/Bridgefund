@@ -277,22 +277,7 @@ list.appendChild(item);
 // INITIALIZE PAGE
 // ---------------------
 
-window.onload = function(){
 
-const walletElement = document.getElementById("walletAddress");
-
-if(walletElement)
-walletElement.innerText = presaleWallet;
-
-updateCountdown();
-updatePresale();
-loadBuyers();
-
-setInterval(updateCountdown,1000);
-setInterval(updatePresale,60000);
-setInterval(loadBuyers,30000);
-
-};
 document.addEventListener("DOMContentLoaded", function(){
 
 const walletElement = document.getElementById("walletAddress");
