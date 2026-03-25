@@ -1,11 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BridgeFund ($BRDG)</title>
+
+<link rel="icon" type="image/png" href="logo.png">
+
+<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0F172A;
+color:white;
+margin:0;
+text-align:center;
+}
+
+.banner{
+width:100%;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:40px 20px;
+}
+
+.logo{
+width:120px;
+margin-top:20px;
+}
+
+.card{
+background:#1E293B;
+padding:25px;
+border-radius:10px;
+margin-top:20px;
+}
+
+h1{
+color:#3B82F6;
+}
+
+h2{
+color:#3B82F6;
+}
+
+button{
+background:#3B82F6;
+color:white;
+border:none;
+padding:15px 25px;
+font-size:18px;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#2563EB;
+}
+
+.progress{
+background:#334155;
+height:20px;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progress-bar{
+background:#3B82F6;
+height:100%;
+width:0%;
+}
+
+.wallet{
+background:#020617;
+padding:10px;
+border-radius:6px;
+word-break:break-all;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<img src="banner.png" class="banner">
+
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<h1>BridgeFund ($BRDG)</h1>
+
+<p>Turning crypto donations into real-world support</p>
+
+<button onclick="connectWallet()">Connect Wallet</button>
+
+<p id="wallet">Wallet not connected</p>
+
+<div class="card">
+
+<h2>Presale Countdown</h2>
+
+<p id="countdown">Loading...</p>
+
+</div>
+
+<div class="card">
+
+<h2>Presale Progress</h2>
+
+<p id="raised">$0 raised</p>
+
+<div class="progress">
+
+<div id="progress-bar" class="progress-bar"></div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Buy BRDG</h2>
+
+<input id="amount" type="number" placeholder="SOL amount">
+
+<br><br>
+
+<button onclick="sendSOL()">Buy</button>
+
+</div>
+
+<div class="card">
+
+<h2>Transparency</h2>
+
+<p>Presale Wallet</p>
+
+<div class="wallet" id="walletAddress"></div>
+
+<br>
+
+<button onclick="copyWallet()">Copy Wallet</button>
+
+</div>
+
+<div class="card">
+
+<h2>Recent Buyers</h2>
+
+<ul id="buyers"></ul>
+
+</div>
+
+<div class="card">
+
+<h2>Whitepaper</h2>
+
+<a href="Whitepaper.pdf" target="_blank">
+
+<button>Download Whitepaper</button>
+
+</a>
+
+</div>
+
+</div>
 
 <script>
 
-// ---------------------
-// CONFIG
-// ---------------------
-
 const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n";
+
 const presaleGoal = 30000;
 
 const MIN_BUY = 0.2;
@@ -15,10 +189,6 @@ const presaleStart = new Date("2026-06-01T00:00:00Z").getTime();
 
 let provider = null;
 
-
-// ---------------------
-// WALLET DETECTION
-// ---------------------
 
 function getProvider(){
 
@@ -41,21 +211,14 @@ return null;
 }
 
 
-// ---------------------
-// COPY WALLET
-// ---------------------
-
 function copyWallet(){
 
 navigator.clipboard.writeText(presaleWallet);
+
 alert("Wallet copied");
 
 }
 
-
-// ---------------------
-// CONNECT WALLET
-// ---------------------
 
 async function connectWallet(){
 
@@ -85,10 +248,6 @@ alert("Wallet connection failed");
 }
 
 
-// ---------------------
-// BUY FUNCTION
-// ---------------------
-
 async function sendSOL(){
 
 if(!provider){
@@ -115,10 +274,6 @@ return;
 
 if(amount > MAX_BUY){
 alert("Maximum buy is 5 SOL");
-return;
-}
-
-if(!confirm("Confirm sending SOL to BridgeFund presale?")){
 return;
 }
 
@@ -153,40 +308,34 @@ alert("Transaction failed");
 }
 
 
-// ---------------------
-// COUNTDOWN TIMER
-// ---------------------
-
 function updateCountdown(){
 
-const countdownElement = document.getElementById("countdown");
+const countdown = document.getElementById("countdown");
 
-if(!countdownElement) return;
+if(!countdown) return;
 
 const now = new Date().getTime();
+
 const distance = presaleStart - now;
 
 if(distance <= 0){
 
-countdownElement.innerText = "Presale LIVE";
+countdown.innerText = "Presale LIVE";
+
 return;
 
 }
 
-const days = Math.floor(distance / (1000*60*60*24));
-const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-const seconds = Math.floor((distance % (1000*60)) / 1000);
+const days = Math.floor(distance/(1000*60*60*24));
+const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+const seconds = Math.floor((distance%(1000*60))/1000);
 
-countdownElement.innerText =
+countdown.innerText =
 days+"d "+hours+"h "+minutes+"m "+seconds+"s";
 
 }
 
-
-// ---------------------
-// PRESALE TRACKER
-// ---------------------
 
 async function updatePresale(){
 
@@ -202,8 +351,6 @@ const balance = await connection.getBalance(pubKey);
 
 const sol = balance / solanaWeb3.LAMPORTS_PER_SOL;
 
-
-// fetch SOL price
 const priceResponse = await fetch(
 "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
 );
@@ -214,30 +361,22 @@ const solPrice = priceData.solana.usd;
 
 const raised = sol * solPrice;
 
-const raisedElement = document.getElementById("raised");
-
-if(raisedElement)
-raisedElement.innerText = "$"+raised.toFixed(2)+" raised";
+document.getElementById("raised").innerText =
+"$"+raised.toFixed(2)+" raised";
 
 const percent = (raised / presaleGoal) * 100;
 
-const bar = document.getElementById("progress-bar");
-
-if(bar)
-bar.style.width = percent + "%";
+document.getElementById("progress-bar").style.width =
+percent + "%";
 
 }catch(e){
 
-console.log("Tracker error",e);
+console.log("tracker error");
 
 }
 
 }
 
-
-// ---------------------
-// RECENT BUYERS
-// ---------------------
 
 async function loadBuyers(){
 
@@ -253,8 +392,6 @@ const signatures = await connection.getSignaturesForAddress(pubKey,{limit:5});
 
 let list = document.getElementById("buyers");
 
-if(!list) return;
-
 list.innerHTML = "";
 
 signatures.forEach(tx => {
@@ -262,7 +399,7 @@ signatures.forEach(tx => {
 let item = document.createElement("li");
 
 item.innerText =
-"Buyer tx: " + tx.signature.substring(0,10) + "...";
+"Buyer tx: "+tx.signature.substring(0,10)+"...";
 
 list.appendChild(item);
 
@@ -273,17 +410,9 @@ list.appendChild(item);
 }
 
 
-// ---------------------
-// INITIALIZE PAGE
-// ---------------------
-
-
 document.addEventListener("DOMContentLoaded", function(){
 
-const walletElement = document.getElementById("walletAddress");
-if(walletElement){
-walletElement.innerText = presaleWallet;
-}
+document.getElementById("walletAddress").innerText = presaleWallet;
 
 updateCountdown();
 updatePresale();
@@ -294,6 +423,8 @@ setInterval(updatePresale,60000);
 setInterval(loadBuyers,30000);
 
 });
+
 </script>
+
 </body>
 </html>
