@@ -394,18 +394,50 @@ let list = document.getElementById("buyers");
 
 list.innerHTML = "";
 
-signatures.forEach(tx => {
+for(const sig of signatures){
+
+const tx = await connection.getParsedTransaction(sig.signature);
+
+if(!tx) continue;
+
+const buyer =
+tx.transaction.message.accountKeys[0].pubkey.toString();
+
+const lamports =
+tx.meta.preBalances[0] - tx.meta.postBalances[0];
+
+const sol = lamports / solanaWeb3.LAMPORTS_PER_SOL;
 
 let item = document.createElement("li");
 
-item.innerText =
-"Buyer tx: "+tx.signature.substring(0,10)+"...";
+item.innerHTML = `
+<div style="margin-bottom:10px">
+
+${buyer.substring(0,6)}... bought ${sol.toFixed(2)} SOL
+
+<div style="background:#334155;height:6px;border-radius:4px;margin-top:4px">
+
+<div style="
+width:${Math.min(sol*20,100)}%;
+background:#3B82F6;
+height:6px;
+border-radius:4px
+"></div>
+
+</div>
+
+</div>
+`;
 
 list.appendChild(item);
 
-});
+}
 
-}catch(e){}
+}catch(e){
+
+console.log("buyers error",e);
+
+}
 
 }
 
