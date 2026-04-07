@@ -66,3 +66,4 @@ If you're interested, feel free to reach out or submit a pull request.
 ## 📬 Contact
 
 Website: https://bridgefund.solutions
+Lumanoid656@protonmail.com
