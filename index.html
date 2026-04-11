@@ -177,284 +177,184 @@ word-break:break-all;
 </div>
 
 <script>
-
-const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n";
-
-const presaleGoal = 30000;
-
-const MIN_BUY = 0.2;
-const MAX_BUY = 5;
-
-const presaleStart = new Date("2026-06-01T00:00:00Z").getTime();
-
 let provider = null;
 
+const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n";
+const presaleGoal = 30000;
+const MIN_BUY = 0.2;
+const MAX_BUY = 5;
+const presaleStart = new Date("2026-06-01T00:00:00Z").getTime();
 
-function getProvider(){
+// ---------- WALLET DETECTION ----------
+function getProvider() {
+  if (window.solana && window.solana.isPhantom) {
+    return window.solana;
+  }
 
-if("solana" in window){
+  if (window.solflare && window.solflare.isSolflare) {
+    return window.solflare;
+  }
 
-const anyProvider = window.solana;
-
-if(anyProvider.isPhantom){
-return anyProvider;
+  alert("No wallet found. Install Phantom or Solflare.");
+  return null;
 }
 
+// ---------- CONNECT WALLET ----------
+async function connectWallet() {
+  provider = getProvider();
+  if (!provider) return;
+
+  try {
+    await provider.connect();
+    document.getElementById("wallet").innerText =
+      "Connected: " + provider.publicKey.toString();
+  } catch (err) {
+    console.error(err);
+    alert("Wallet connection failed");
+  }
 }
 
-if(window.solflare){
-return window.solflare;
+// ---------- COPY WALLET ----------
+function copyWallet() {
+  navigator.clipboard.writeText(presaleWallet);
+  alert("Wallet copied");
 }
 
-return null;
+// ---------- SEND SOL ----------
+async function sendSOL() {
+  if (!provider) {
+    alert("Connect wallet first");
+    return;
+  }
 
+  if (Date.now() < presaleStart) {
+    alert("Presale not open yet");
+    return;
+  }
+
+  const amount = parseFloat(document.getElementById("amount").value);
+
+  if (!amount) {
+    alert("Enter SOL amount");
+    return;
+  }
+
+  if (amount < MIN_BUY) {
+    alert("Minimum buy is 0.2 SOL");
+    return;
+  }
+
+  if (amount > MAX_BUY) {
+    alert("Maximum buy is 5 SOL");
+    return;
+  }
+
+  if (!confirm("Confirm sending SOL to BridgeFund presale?")) return;
+
+  try {
+    const connection = new solanaWeb3.Connection(
+      solanaWeb3.clusterApiUrl("mainnet-beta")
+    );
+
+    const transaction = new solanaWeb3.Transaction().add(
+      solanaWeb3.SystemProgram.transfer({
+        fromPubkey: provider.publicKey,
+        toPubkey: new solanaWeb3.PublicKey(presaleWallet),
+        lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
+      })
+    );
+
+    const signature = await provider.signAndSendTransaction(transaction);
+
+    alert("Transaction sent: " + signature.signature);
+
+  } catch (e) {
+    console.error(e);
+    alert("Transaction failed");
+  }
 }
 
+// ---------- COUNTDOWN ----------
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = presaleStart - now;
 
-function copyWallet(){
+  if (distance <= 0) {
+    document.getElementById("countdown").innerText = "Presale LIVE";
+    return;
+  }
 
-navigator.clipboard.writeText(presaleWallet);
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((distance % (1000*60)) / 1000);
 
-alert("Wallet copied");
-
+  document.getElementById("countdown").innerText =
+    days + "d " + hours + "h " + minutes + "m " + seconds + "s";
 }
 
+// ---------- PRESALE TRACKER ----------
+async function updatePresale() {
+  try {
+    const connection = new solanaWeb3.Connection(
+      solanaWeb3.clusterApiUrl("mainnet-beta")
+    );
 
-async function connectWallet(){
+    const balance = await connection.getBalance(
+      new solanaWeb3.PublicKey(presaleWallet)
+    );
 
-provider = getProvider();
+    const sol = balance / solanaWeb3.LAMPORTS_PER_SOL;
+    const solPrice = 150; // adjust if needed
+    const raised = sol * solPrice;
 
-if(!provider){
+    document.getElementById("raised").innerText =
+      "$" + raised.toFixed(2) + " raised";
 
-alert("Install Phantom or Solflare wallet");
+    const percent = (raised / presaleGoal) * 100;
+    document.getElementById("progress-bar").style.width =
+      percent + "%";
 
-return;
-
+  } catch (e) {
+    console.log("Presale update error", e);
+  }
 }
 
-try{
+// ---------- RECENT BUYERS ----------
+async function loadBuyers() {
+  try {
+    const connection = new solanaWeb3.Connection(
+      solanaWeb3.clusterApiUrl("mainnet-beta")
+    );
 
-const response = await provider.connect();
+    const signatures = await connection.getSignaturesForAddress(
+      new solanaWeb3.PublicKey(presaleWallet),
+      { limit: 5 }
+    );
 
-document.getElementById("wallet").innerText =
-"Connected: " + response.publicKey.toString();
+    const list = document.getElementById("buyers");
+    list.innerHTML = "";
 
-}catch(err){
+    signatures.forEach(tx => {
+      const item = document.createElement("li");
+      item.innerText =
+        "Tx: " + tx.signature.substring(0, 12) + "...";
+      list.appendChild(item);
+    });
 
-alert("Wallet connection failed");
-
+  } catch (e) {
+    console.log("Buyer load error", e);
+  }
 }
 
-}
-
-
-async function sendSOL(){
-
-if(!provider){
-alert("Connect wallet first");
-return;
-}
-
-if(Date.now() < presaleStart){
-alert("Presale not open yet");
-return;
-}
-
-const amount = document.getElementById("amount").value;
-
-if(!amount){
-alert("Enter SOL amount");
-return;
-}
-
-if(amount < MIN_BUY){
-alert("Minimum buy is 0.2 SOL");
-return;
-}
-
-if(amount > MAX_BUY){
-alert("Maximum buy is 5 SOL");
-return;
-}
-
-const connection = new solanaWeb3.Connection(
-solanaWeb3.clusterApiUrl("mainnet-beta")
-);
-
-const transaction = new solanaWeb3.Transaction();
-
-const instruction = solanaWeb3.SystemProgram.transfer({
-
-fromPubkey: provider.publicKey,
-toPubkey: new solanaWeb3.PublicKey(presaleWallet),
-lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
-
-});
-
-transaction.add(instruction);
-
-try{
-
-await provider.signAndSendTransaction(transaction);
-
-alert("Transaction sent successfully");
-
-}catch(e){
-
-alert("Transaction failed");
-
-}
-
-}
-
-
-function updateCountdown(){
-
-const countdown = document.getElementById("countdown");
-
-if(!countdown) return;
-
-const now = new Date().getTime();
-
-const distance = presaleStart - now;
-
-if(distance <= 0){
-
-countdown.innerText = "Presale LIVE";
-
-return;
-
-}
-
-const days = Math.floor(distance/(1000*60*60*24));
-const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-const seconds = Math.floor((distance%(1000*60))/1000);
-
-countdown.innerText =
-days+"d "+hours+"h "+minutes+"m "+seconds+"s";
-
-}
-
-
-async function updatePresale(){
-
-try{
-
-const connection = new solanaWeb3.Connection(
-solanaWeb3.clusterApiUrl("mainnet-beta")
-);
-
-const pubKey = new solanaWeb3.PublicKey(presaleWallet);
-
-const balance = await connection.getBalance(pubKey);
-
-const sol = balance / solanaWeb3.LAMPORTS_PER_SOL;
-
-const priceResponse = await fetch(
-"https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd"
-);
-
-const priceData = await priceResponse.json();
-
-const solPrice = priceData.solana.usd;
-
-const raised = sol * solPrice;
-
-document.getElementById("raised").innerText =
-"$"+raised.toFixed(2)+" raised";
-
-const percent = (raised / presaleGoal) * 100;
-
-document.getElementById("progress-bar").style.width =
-percent + "%";
-
-}catch(e){
-
-console.log("tracker error");
-
-}
-
-}
-
-
-async function loadBuyers(){
-
-try{
-
-const connection = new solanaWeb3.Connection(
-solanaWeb3.clusterApiUrl("mainnet-beta")
-);
-
-const pubKey = new solanaWeb3.PublicKey(presaleWallet);
-
-const signatures = await connection.getSignaturesForAddress(pubKey,{limit:5});
-
-let list = document.getElementById("buyers");
-
-list.innerHTML = "";
-
-for(const sig of signatures){
-
-const tx = await connection.getParsedTransaction(sig.signature);
-
-if(!tx) continue;
-
-const buyer =
-tx.transaction.message.accountKeys[0].pubkey.toString();
-
-const lamports =
-tx.meta.preBalances[0] - tx.meta.postBalances[0];
-
-const sol = lamports / solanaWeb3.LAMPORTS_PER_SOL;
-
-let item = document.createElement("li");
-
-item.innerHTML = `
-<div style="margin-bottom:10px">
-
-${buyer.substring(0,6)}... bought ${sol.toFixed(2)} SOL
-
-<div style="background:#334155;height:6px;border-radius:4px;margin-top:4px">
-
-<div style="
-width:${Math.min(sol*20,100)}%;
-background:#3B82F6;
-height:6px;
-border-radius:4px
-"></div>
-
-</div>
-
-</div>
-`;
-
-list.appendChild(item);
-
-}
-
-}catch(e){
-
-console.log("buyers error",e);
-
-}
-
-}
-
-
-document.addEventListener("DOMContentLoaded", function(){
-
-document.getElementById("walletAddress").innerText = presaleWallet;
-
+// ---------- INIT ----------
 updateCountdown();
 updatePresale();
 loadBuyers();
 
-setInterval(updateCountdown,1000);
-setInterval(updatePresale,60000);
-setInterval(loadBuyers,30000);
-
-});
+setInterval(updateCountdown, 1000);
+setInterval(updatePresale, 30000);
+setInterval(loadBuyers, 30000);
 
 </script>
 
