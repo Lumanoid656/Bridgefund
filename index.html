@@ -1,366 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BridgeFund ($BRDG)</title>
-
-<link rel="icon" type="image/png" href="logo.png">
-
-<script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.js"></script>
+<title>BridgeFund</title>
 
 <style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#0a0a0a;
+  color:#fff;
+}
+.container {
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+h1,h2 { text-align:center; }
 
-body{
-font-family:Arial;
-background:#0F172A;
-color:white;
-margin:0;
-text-align:center;
+.hero {
+  padding:80px 20px;
+  text-align:center;
+}
+.hero p {
+  color:#aaa;
 }
 
-.banner{
-width:100%;
+.btn {
+  display:inline-block;
+  margin:10px;
+  padding:12px 22px;
+  background:#00ffae;
+  color:#000;
+  border-radius:6px;
+  text-decoration:none;
+  font-weight:bold;
+}
+.btn.alt {
+  background:transparent;
+  color:#00ffae;
+  border:1px solid #00ffae;
 }
 
-.container{
-max-width:900px;
-margin:auto;
-padding:40px 20px;
+.section {
+  margin:60px 0;
 }
 
-.logo{
-width:120px;
-margin-top:20px;
+.card {
+  background:#111;
+  padding:20px;
+  border-radius:10px;
+  margin-top:15px;
 }
 
-.card{
-background:#1E293B;
-padding:25px;
-border-radius:10px;
-margin-top:20px;
+.status {
+  text-align:center;
+  margin-top:30px;
+  color:#00ffae;
 }
 
-h1{
-color:#3B82F6;
+.footer {
+  text-align:center;
+  color:#555;
+  margin-top:60px;
+  font-size:0.9rem;
 }
-
-h2{
-color:#3B82F6;
-}
-
-button{
-background:#3B82F6;
-color:white;
-border:none;
-padding:15px 25px;
-font-size:18px;
-border-radius:6px;
-cursor:pointer;
-}
-
-button:hover{
-background:#2563EB;
-}
-
-.progress{
-background:#334155;
-height:20px;
-border-radius:10px;
-overflow:hidden;
-}
-
-.progress-bar{
-background:#3B82F6;
-height:100%;
-width:0%;
-}
-
-.wallet{
-background:#020617;
-padding:10px;
-border-radius:6px;
-word-break:break-all;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<img src="banner.png" class="banner">
-
 <div class="container">
 
-<img src="logo.png" class="logo">
+<!-- HERO -->
+<div class="hero">
+  <h1>BridgeFund 🌉</h1>
+  <p>Connecting crypto funding to real-world small businesses.</p>
 
-<h1>BridgeFund ($BRDG)</h1>
+  <a class="btn" href="https://pump.fun/coin/7FfepPuVXueEvwJsCrFWXhpZS46KHfZqkNS77FMvpump" target="_blank">
+    View Token
+  </a>
 
-<p>Turning crypto donations into real-world support</p>
+  <a class="btn alt" href="https://x.com/j611840" target="_blank">
+    Follow on X
+  </a>
 
-<button onclick="connectWallet()">Connect Wallet</button>
-
-<p id="wallet">Wallet not connected</p>
-
-<div class="card">
-
-<h2>Presale Countdown</h2>
-
-<p id="countdown">Loading...</p>
-
+  <div class="status">
+    Phase 1 — Live (Early Stage)
+  </div>
 </div>
 
-<div class="card">
+<!-- WHAT -->
+<div class="section">
+  <h2>What We’re Building</h2>
+  <p style="text-align:center;">
+    BridgeFund is designed to connect crypto users directly with small businesses
+    that need funding — with transparency on how funds are used.
+  </p>
+</div>
 
-<h2>Presale Progress</h2>
+<!-- WHY -->
+<div class="section">
+  <h2>Why This Matters</h2>
 
-<p id="raised">$0 raised</p>
+  <div class="card">
+    Small businesses often struggle to access capital.
+  </div>
 
-<div class="progress">
+  <div class="card">
+    Crypto has global liquidity but lacks real-world use.
+  </div>
 
-<div id="progress-bar" class="progress-bar"></div>
+  <div class="card">
+    BridgeFund aims to connect the two — simply and transparently.
+  </div>
+</div>
 
+<!-- CURRENT STATUS -->
+<div class="section">
+  <h2>Where We Are</h2>
+
+  <div class="card">
+    ✔ Token launched on Pump.fun  
+  </div>
+
+  <div class="card">
+    ✔ Initial platform concept live  
+  </div>
+
+  <div class="card">
+    🔄 Building early community and awareness  
+  </div>
+</div>
+
+<!-- NEXT -->
+<div class="section">
+  <h2>Where We’re Going</h2>
+
+  <div class="card">
+    → Onboard first real small businesses  
+  </div>
+
+  <div class="card">
+    → Launch first funding distributions  
+  </div>
+
+  <div class="card">
+    → Build transparent tracking system  
+  </div>
+
+  <div class="card">
+    → Expand into a full funding platform  
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="section" style="text-align:center;">
+  <h2>Follow the Build</h2>
+  <p>We’re building this in public — step by step.</p>
+
+  <a href="https://x.com/j611840" target="_blank" class="btn alt">
+    Follow on X
+  </a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 BridgeFund — Building in Public
 </div>
 
 </div>
-
-<div class="card">
-  
-<p style="color:#facc15; font-size:14px;">
-⚠️ Only send SOL using this button. Do not send directly unless verified.
-</p>
-  
-<h2>Buy BRDG</h2>
-
-<input id="amount" type="number" placeholder="SOL amount">
-
-<br><br>
-
-<button onclick="sendSOL()">Buy</button>
-
-</div>
-
-<div class="card">
-
-<h2>Transparency</h2>
-
-<p>Presale Wallet</p>
-
-<div class="wallet" id="walletAddress"></div>
-
-<br>
-
-<button onclick="copyWallet()">Copy Wallet</button>
-
-</div>
-
-<div class="card">
-
-<h2>Recent Buyers</h2>
-
-<ul id="buyers"></ul>
-
-</div>
-
-<div class="card">
-
-<h2>Whitepaper</h2>
-
-<a href="Whitepaper.pdf" target="_blank">
-
-<button>Download Whitepaper</button>
-
-</a>
-
-</div>
-
-</div>
-
-<script>
-let provider = null;
-
-const presaleWallet = "58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n";
-const presaleGoal = 30000;
-const MIN_BUY = 0.2;
-const MAX_BUY = 5;
-const presaleStart = new Date("2026-06-01T00:00:00Z").getTime();
-
-// ---------- WALLET DETECTION ----------
-function getProvider() {
-  if (window.solana && window.solana.isPhantom) {
-    return window.solana;
-  }
-
-  if (window.solflare && window.solflare.isSolflare) {
-    return window.solflare;
-  }
-
-  alert("No wallet found. Install Phantom or Solflare.");
-  return null;
-}
-
-// ---------- CONNECT WALLET ----------
-async function connectWallet() {
-  provider = getProvider();
-  if (!provider) return;
-
-  try {
-    await provider.connect();
-    document.getElementById("wallet").innerText =
-      "Connected: " + provider.publicKey.toString();
-  } catch (err) {
-    console.error(err);
-    alert("Wallet connection failed");
-  }
-}
-
-// ---------- COPY WALLET ----------
-function copyWallet() {
-  navigator.clipboard.writeText(presaleWallet);
-  alert("Wallet copied");
-}
-
-// ---------- SEND SOL ----------
-async function sendSOL() {
-  if (!provider) {
-    alert("Connect wallet first");
-    return;
-  }
-
-  if (Date.now() < presaleStart) {
-    alert("Presale not open yet");
-    return;
-  }
-
-  const amount = parseFloat(document.getElementById("amount").value);
-
-  if (!amount) {
-    alert("Enter SOL amount");
-    return;
-  }
-
-  if (amount < MIN_BUY) {
-    alert("Minimum buy is 0.2 SOL");
-    return;
-  }
-
-  if (amount > MAX_BUY) {
-    alert("Maximum buy is 5 SOL");
-    return;
-  }
-
-  if (!confirm("Confirm sending SOL to BridgeFund presale?")) return;
-
-  try {
-    const connection = new solanaWeb3.Connection(
-      solanaWeb3.clusterApiUrl("mainnet-beta")
-    );
-
-    const transaction = new solanaWeb3.Transaction().add(
-      solanaWeb3.SystemProgram.transfer({
-        fromPubkey: provider.publicKey,
-        toPubkey: new solanaWeb3.PublicKey(presaleWallet),
-        lamports: amount * solanaWeb3.LAMPORTS_PER_SOL
-      })
-    );
-
-    const signature = await provider.signAndSendTransaction(transaction);
-
-    alert("Transaction sent: " + signature.signature);
-
-  } catch (e) {
-    console.error(e);
-    alert("Transaction failed");
-  }
-}
-
-// ---------- COUNTDOWN ----------
-function updateCountdown() {
-  const now = new Date().getTime();
-  const distance = presaleStart - now;
-
-  if (distance <= 0) {
-    document.getElementById("countdown").innerText = "Presale LIVE";
-    return;
-  }
-
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-  const seconds = Math.floor((distance % (1000*60)) / 1000);
-
-  document.getElementById("countdown").innerText =
-    days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-}
-
-// ---------- PRESALE TRACKER ----------
-async function updatePresale() {
-  try {
-    const connection = new solanaWeb3.Connection(
-      solanaWeb3.clusterApiUrl("mainnet-beta")
-    );
-
-    const balance = await connection.getBalance(
-      new solanaWeb3.PublicKey(presaleWallet)
-    );
-
-    const sol = balance / solanaWeb3.LAMPORTS_PER_SOL;
-    const solPrice = 150; // adjust if needed
-    const raised = sol * solPrice;
-
-    document.getElementById("raised").innerText =
-      "$" + raised.toFixed(2) + " raised";
-
-    const percent = (raised / presaleGoal) * 100;
-    document.getElementById("progress-bar").style.width =
-      percent + "%";
-
-  } catch (e) {
-    console.log("Presale update error", e);
-  }
-}
-
-// ---------- RECENT BUYERS ----------
-async function loadBuyers() {
-  try {
-    const connection = new solanaWeb3.Connection(
-      solanaWeb3.clusterApiUrl("mainnet-beta")
-    );
-
-    const signatures = await connection.getSignaturesForAddress(
-      new solanaWeb3.PublicKey(presaleWallet),
-      { limit: 5 }
-    );
-
-    const list = document.getElementById("buyers");
-    list.innerHTML = "";
-
-    signatures.forEach(tx => {
-      const item = document.createElement("li");
-      item.innerText =
-        "Tx: " + tx.signature.substring(0, 12) + "...";
-      list.appendChild(item);
-    });
-
-  } catch (e) {
-    console.log("Buyer load error", e);
-  }
-}
-
-// ---------- INIT ----------
-updateCountdown();
-updatePresale();
-loadBuyers();
-
-setInterval(updateCountdown, 1000);
-setInterval(updatePresale, 30000);
-setInterval(loadBuyers, 30000);
-
-</script>
 
 </body>
 </html>
