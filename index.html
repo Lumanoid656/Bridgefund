@@ -8,90 +8,139 @@
 <style>
 body {
   margin:0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
   background: linear-gradient(180deg, #0b1c2c, #050a12);
   color:#fff;
 }
+
+/* NAVBAR */
+.nav {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+  max-width:1100px;
+  margin:auto;
+}
+.nav a {
+  color:#9fb3c8;
+  text-decoration:none;
+  margin-left:20px;
+}
+.nav a:hover {
+  color:#1e90ff;
+}
+
+/* CONTAINER */
 .container {
-  max-width:900px;
+  max-width:1100px;
   margin:auto;
   padding:20px;
 }
-h1,h2 { text-align:center; }
 
+/* HERO */
 .hero {
-  padding:80px 20px;
   text-align:center;
+  padding:80px 20px;
 }
 .hero h1 {
-  font-size:2.5rem;
-  letter-spacing:1px;
+  font-size:2.8rem;
 }
 .hero p {
   color:#9fb3c8;
 }
 
+/* BUTTONS */
 .btn {
   display:inline-block;
   margin:10px;
   padding:12px 22px;
   background:#1e90ff;
   color:#fff;
-  border-radius:6px;
+  border-radius:8px;
   text-decoration:none;
   font-weight:bold;
 }
 .btn.alt {
   background:transparent;
-  color:#1e90ff;
   border:1px solid #1e90ff;
 }
 
-.section {
-  margin:60px 0;
-}
-
+/* GLASS CARD */
 .card {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.04);
   border:1px solid rgba(255,255,255,0.08);
   padding:20px;
-  border-radius:10px;
-  margin-top:15px;
-  backdrop-filter: blur(6px);
+  border-radius:12px;
+  backdrop-filter: blur(10px);
+  transition:0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
 }
 
-.status {
+/* GRID */
+.grid {
+  display:grid;
+  gap:20px;
+}
+.cards {
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+}
+
+/* SECTION */
+.section {
+  margin:70px 0;
   text-align:center;
-  margin-top:30px;
+}
+.section p {
+  color:#9fb3c8;
+  max-width:700px;
+  margin:auto;
+}
+
+/* STATUS */
+.status {
+  margin-top:20px;
   color:#1e90ff;
   font-weight:bold;
 }
 
+/* FOOTER */
 .footer {
   text-align:center;
   color:#6c7f93;
   margin-top:60px;
-  font-size:0.9rem;
 }
 
+/* LOGO */
 .logo {
-  width:60px;
-  margin-bottom:10px;
+  font-weight:bold;
+  font-size:1.2rem;
+  color:#1e90ff;
 }
 </style>
 </head>
 
 <body>
 
+<!-- NAV -->
+<div class="nav">
+  <div class="logo">BridgeFund 🌉</div>
+  <div>
+    <a href="https://pump.fun/coin/7FfepPuVXueEvwJsCrFWXhpZS46KHfZqkNS77FMvpump" target="_blank">Token</a>
+    <a href="https://x.com/j611840" target="_blank">X</a>
+  </div>
+</div>
+
 <div class="container">
 
 <!-- HERO -->
 <div class="hero">
-  <!-- Replace with your actual logo file -->
-  <img src="logo.png" class="logo" alt="BridgeFund Logo">
-
-  <h1>BridgeFund</h1>
-  <p>Connecting crypto funding to real-world small businesses.</p>
+  <h1>Connecting Crypto to Real-World Businesses</h1>
+  <p>
+    BridgeFund is building a transparent way for crypto to directly fund small businesses.
+  </p>
 
   <a class="btn" href="https://pump.fun/coin/7FfepPuVXueEvwJsCrFWXhpZS46KHfZqkNS77FMvpump" target="_blank">
     View Token
@@ -101,69 +150,58 @@ h1,h2 { text-align:center; }
     Follow on X
   </a>
 
-  <div class="status">
-    Phase 1 — Live (Early Stage)
-  </div>
+  <div class="status">Phase 1 — Live</div>
 </div>
 
 <!-- WHAT -->
 <div class="section">
   <h2>What We’re Building</h2>
-  <p style="text-align:center;">
-    BridgeFund connects crypto users directly with small businesses
-    that need funding — with transparency on how funds are used.
+  <p>
+    A bridge between crypto liquidity and small businesses that need funding —
+    with transparency on where money goes.
   </p>
 </div>
 
 <!-- WHY -->
+<div class="section grid cards">
+  <div class="card">Small businesses struggle to access capital.</div>
+  <div class="card">Crypto has liquidity but lacks real-world use.</div>
+  <div class="card">BridgeFund connects the two directly.</div>
+</div>
+
+<!-- STATUS -->
 <div class="section">
-  <h2>Why This Matters</h2>
-
-  <div class="card">
-    Small businesses often struggle to access capital.
-  </div>
-
-  <div class="card">
-    Crypto holds global liquidity but lacks real-world use.
-  </div>
-
-  <div class="card">
-    BridgeFund bridges the gap — simply and transparently.
+  <h2>Current Status</h2>
+  <div class="grid cards">
+    <div class="card">✔ Token launched</div>
+    <div class="card">✔ Platform concept live</div>
+    <div class="card">🔄 Building community</div>
   </div>
 </div>
 
-<!-- CURRENT -->
+<!-- ROADMAP -->
 <div class="section">
-  <h2>Where We Are</h2>
-
-  <div class="card">✔ Token launched on Pump.fun</div>
-  <div class="card">✔ Platform concept live</div>
-  <div class="card">🔄 Building early community</div>
-</div>
-
-<!-- NEXT -->
-<div class="section">
-  <h2>Where We’re Going</h2>
-
-  <div class="card">→ Onboard real businesses</div>
-  <div class="card">→ First funding distributions</div>
-  <div class="card">→ Transparent tracking system</div>
-  <div class="card">→ Full platform rollout</div>
+  <h2>What’s Next</h2>
+  <div class="grid cards">
+    <div class="card">Onboard first businesses</div>
+    <div class="card">Launch first funding</div>
+    <div class="card">Transparency tracking</div>
+    <div class="card">Full platform rollout</div>
+  </div>
 </div>
 
 <!-- CTA -->
-<div class="section" style="text-align:center;">
+<div class="section">
   <h2>Follow the Build</h2>
-  <p>We’re building this in public — step by step.</p>
+  <p>We’re building in public — step by step.</p>
 
   <a href="https://x.com/j611840" target="_blank" class="btn alt">
     Follow on X
   </a>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  © 2026 BridgeFund — Building in Public
+  © 2026 BridgeFund
 </div>
 
 </div>
