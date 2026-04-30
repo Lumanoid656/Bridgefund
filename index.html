@@ -6,9 +6,11 @@
 <title>BridgeFund</title>
 
 <style>
+html { scroll-behavior: smooth; }
+
 body {
   margin:0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family:'Segoe UI', sans-serif;
   background:#020617;
   color:#fff;
 }
@@ -19,9 +21,11 @@ body {
   justify-content:space-between;
   align-items:center;
   padding:20px 40px;
-  position:absolute;
+  position:fixed;
   width:100%;
   z-index:10;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px);
 }
 .nav-left {
   display:flex;
@@ -43,7 +47,7 @@ body {
 /* HERO */
 .hero {
   height:100vh;
-  background: url("banner.png") center/cover no-repeat;
+  background:url("banner.png") center/cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -53,7 +57,7 @@ body {
 .overlay {
   position:absolute;
   inset:0;
-  background: rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.6);
 }
 .hero-content {
   position:relative;
@@ -64,7 +68,6 @@ body {
 }
 .hero p {
   color:#94a3b8;
-  font-size:1.2rem;
 }
 
 /* BUTTONS */
@@ -133,17 +136,18 @@ body {
   </div>
 
   <div>
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">How It Works</a>
-    <a href="#">Roadmap</a>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#how">How It Works</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="whitepaper.pdf" target="_blank">Whitepaper</a>
     <a href="https://pump.fun/coin/7FfepPuVXueEvwJsCrFWXhpZS46KHfZqkNS77FMvpump" target="_blank">Token</a>
     <a href="https://x.com/j611840" target="_blank">X</a>
   </div>
 </div>
 
 <!-- HERO -->
-<div class="hero">
+<div class="hero" id="home">
   <div class="overlay"></div>
 
   <div class="hero-content">
@@ -158,11 +162,15 @@ body {
     <a class="btn secondary" href="https://x.com/j611840" target="_blank">
       Follow on X
     </a>
+
+    <a class="btn secondary" href="whitepaper.pdf" target="_blank">
+      View Whitepaper
+    </a>
   </div>
 </div>
 
-<!-- MISSION -->
-<div class="section">
+<!-- ABOUT -->
+<div class="section" id="about">
   <h2>Our Mission</h2>
   <p>
     BridgeFund connects the power of crypto with the real needs of small businesses.
@@ -176,8 +184,30 @@ body {
   </div>
 </div>
 
-<!-- STATUS -->
-<div class="section">
+<!-- HOW -->
+<div class="section" id="how">
+  <h2>How It Works</h2>
+
+  <div class="cards">
+    <div class="card">
+      <h3>1. Crypto In</h3>
+      <p>Users contribute through the ecosystem.</p>
+    </div>
+
+    <div class="card">
+      <h3>2. Convert</h3>
+      <p>Funds are converted into usable capital.</p>
+    </div>
+
+    <div class="card">
+      <h3>3. Fund Businesses</h3>
+      <p>Capital is deployed to real small businesses.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div class="section" id="roadmap">
   <div class="split">
 
     <div class="card">
