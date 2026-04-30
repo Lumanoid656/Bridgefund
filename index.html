@@ -9,7 +9,7 @@
 body {
   margin:0;
   font-family: Arial, sans-serif;
-  background:#0a0a0a;
+  background: linear-gradient(180deg, #0b1c2c, #050a12);
   color:#fff;
 }
 .container {
@@ -23,24 +23,28 @@ h1,h2 { text-align:center; }
   padding:80px 20px;
   text-align:center;
 }
+.hero h1 {
+  font-size:2.5rem;
+  letter-spacing:1px;
+}
 .hero p {
-  color:#aaa;
+  color:#9fb3c8;
 }
 
 .btn {
   display:inline-block;
   margin:10px;
   padding:12px 22px;
-  background:#00ffae;
-  color:#000;
+  background:#1e90ff;
+  color:#fff;
   border-radius:6px;
   text-decoration:none;
   font-weight:bold;
 }
 .btn.alt {
   background:transparent;
-  color:#00ffae;
-  border:1px solid #00ffae;
+  color:#1e90ff;
+  border:1px solid #1e90ff;
 }
 
 .section {
@@ -48,23 +52,31 @@ h1,h2 { text-align:center; }
 }
 
 .card {
-  background:#111;
+  background: rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
   padding:20px;
   border-radius:10px;
   margin-top:15px;
+  backdrop-filter: blur(6px);
 }
 
 .status {
   text-align:center;
   margin-top:30px;
-  color:#00ffae;
+  color:#1e90ff;
+  font-weight:bold;
 }
 
 .footer {
   text-align:center;
-  color:#555;
+  color:#6c7f93;
   margin-top:60px;
   font-size:0.9rem;
+}
+
+.logo {
+  width:60px;
+  margin-bottom:10px;
 }
 </style>
 </head>
@@ -75,7 +87,10 @@ h1,h2 { text-align:center; }
 
 <!-- HERO -->
 <div class="hero">
-  <h1>BridgeFund 🌉</h1>
+  <!-- Replace with your actual logo file -->
+  <img src="logo.png" class="logo" alt="BridgeFund Logo">
+
+  <h1>BridgeFund</h1>
   <p>Connecting crypto funding to real-world small businesses.</p>
 
   <a class="btn" href="https://pump.fun/coin/7FfepPuVXueEvwJsCrFWXhpZS46KHfZqkNS77FMvpump" target="_blank">
@@ -95,7 +110,7 @@ h1,h2 { text-align:center; }
 <div class="section">
   <h2>What We’re Building</h2>
   <p style="text-align:center;">
-    BridgeFund is designed to connect crypto users directly with small businesses
+    BridgeFund connects crypto users directly with small businesses
     that need funding — with transparency on how funds are used.
   </p>
 </div>
@@ -109,50 +124,31 @@ h1,h2 { text-align:center; }
   </div>
 
   <div class="card">
-    Crypto has global liquidity but lacks real-world use.
+    Crypto holds global liquidity but lacks real-world use.
   </div>
 
   <div class="card">
-    BridgeFund aims to connect the two — simply and transparently.
+    BridgeFund bridges the gap — simply and transparently.
   </div>
 </div>
 
-<!-- CURRENT STATUS -->
+<!-- CURRENT -->
 <div class="section">
   <h2>Where We Are</h2>
 
-  <div class="card">
-    ✔ Token launched on Pump.fun  
-  </div>
-
-  <div class="card">
-    ✔ Initial platform concept live  
-  </div>
-
-  <div class="card">
-    🔄 Building early community and awareness  
-  </div>
+  <div class="card">✔ Token launched on Pump.fun</div>
+  <div class="card">✔ Platform concept live</div>
+  <div class="card">🔄 Building early community</div>
 </div>
 
 <!-- NEXT -->
 <div class="section">
   <h2>Where We’re Going</h2>
 
-  <div class="card">
-    → Onboard first real small businesses  
-  </div>
-
-  <div class="card">
-    → Launch first funding distributions  
-  </div>
-
-  <div class="card">
-    → Build transparent tracking system  
-  </div>
-
-  <div class="card">
-    → Expand into a full funding platform  
-  </div>
+  <div class="card">→ Onboard real businesses</div>
+  <div class="card">→ First funding distributions</div>
+  <div class="card">→ Transparent tracking system</div>
+  <div class="card">→ Full platform rollout</div>
 </div>
 
 <!-- CTA -->
