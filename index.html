@@ -91,7 +91,6 @@ input, textarea {
   border:none;
 }
 
-/* SUCCESS */
 .success {
   display:none;
   color:#38bdf8;
@@ -152,12 +151,13 @@ input, textarea {
   <p style="color:#94a3b8;">Early access — limited businesses selected.</p>
 
   <form id="bf-form" action="https://formspree.io/f/mnjwjydl" method="POST" style="max-width:500px;margin:auto;">
+    
     <input type="text" name="Business Name" placeholder="Business Name" required>
     <input type="text" name="Owner Name" placeholder="Owner Name" required>
     <input type="text" name="Location" placeholder="City / State" required>
     <input type="text" name="Website" placeholder="Website or Social Media" required>
-    <input type="email" name="Email" placeholder="Contact Email" required>
-    <textarea name="Funding Use" placeholder="What would funding be used for?" required></textarea>
+    <input type="email" name="email" placeholder="Contact Email" required>
+    <textarea name="message" placeholder="What would funding be used for?" required></textarea>
 
     <input type="text" name="_gotcha" style="display:none">
 
@@ -203,6 +203,7 @@ input, textarea {
   © 2026 BridgeFund
 </div>
 
+<!-- FORM SCRIPT -->
 <script>
 document.getElementById("bf-form").addEventListener("submit", async function(e) {
   e.preventDefault();
@@ -219,6 +220,8 @@ document.getElementById("bf-form").addEventListener("submit", async function(e) 
   if (response.ok) {
     form.reset();
     document.getElementById("success-msg").style.display = "block";
+  } else {
+    alert("Something went wrong. Try again.");
   }
 });
 </script>
