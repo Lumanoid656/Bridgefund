@@ -6,7 +6,7 @@
 <title>BridgeFund</title>
 
 <style>
-html { scroll-behavior: smooth; }
+html { scroll-behavior:smooth; }
 
 body {
   margin:0;
@@ -27,22 +27,10 @@ body {
   background:rgba(0,0,0,0.6);
   backdrop-filter:blur(10px);
 }
-.nav-left {
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.nav-left img {
-  width:40px;
-}
-.nav a {
-  color:#cbd5e1;
-  margin:0 10px;
-  text-decoration:none;
-}
-.nav a:hover {
-  color:#38bdf8;
-}
+.nav-left { display:flex; align-items:center; gap:10px; }
+.nav-left img { width:40px; }
+.nav a { color:#cbd5e1; margin:0 10px; text-decoration:none; }
+.nav a:hover { color:#38bdf8; }
 
 /* HERO */
 .hero {
@@ -59,16 +47,9 @@ body {
   inset:0;
   background:rgba(0,0,0,0.6);
 }
-.hero-content {
-  position:relative;
-  z-index:2;
-}
-.hero h1 {
-  font-size:3rem;
-}
-.hero p {
-  color:#94a3b8;
-}
+.hero-content { position:relative; z-index:2; }
+
+.hero p { color:#94a3b8; }
 
 /* BUTTONS */
 .btn {
@@ -79,14 +60,10 @@ body {
   text-decoration:none;
   font-weight:bold;
 }
-.primary {
-  background:#2563eb;
-}
-.secondary {
-  border:1px solid #38bdf8;
-}
+.primary { background:#2563eb; }
+.secondary { border:1px solid #38bdf8; }
 
-/* SECTION */
+/* SECTIONS */
 .section {
   padding:80px 20px;
   text-align:center;
@@ -105,16 +82,20 @@ body {
   border-radius:12px;
 }
 
-/* SPLIT */
-.split {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-  max-width:1000px;
-  margin:auto;
+/* FORM */
+input, textarea {
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border-radius:6px;
+  border:none;
 }
-@media(max-width:800px){
-  .split { grid-template-columns:1fr; }
+
+/* SUCCESS MESSAGE */
+.success {
+  display:none;
+  color:#38bdf8;
+  margin-top:20px;
 }
 
 /* FOOTER */
@@ -139,7 +120,9 @@ body {
     <a href="#home">Home</a>
     <a href="#about">About</a>
     <a href="#how">How It Works</a>
-    <a href="#roadmap">Roadmap</a>
+    <a href="#apply">Apply</a>
+    <a href="#funded">Funded</a>
+    <a href="#transparency">Transparency</a>
     <a href="Whitepaper.pdf" target="_blank">Whitepaper</a>
     <a href="https://pump.fun/coin/7FfepPuVXueEvwJsCrFWXhpZS46KHfZqkNS77FMvpump" target="_blank">Token</a>
     <a href="https://x.com/j611840" target="_blank">X</a>
@@ -152,18 +135,11 @@ body {
 
   <div class="hero-content">
     <h1>BridgeFund ($BRDG)</h1>
-    <p>Turning crypto donations into real-world support</p>
-    <p>Crypto → USD → Businesses</p>
-
-    <!-- ✅ SOLANA LINE ADDED -->
+    <p>Crypto → Real Businesses</p>
     <p style="color:#38bdf8;">Built on Solana</p>
 
     <a class="btn primary" href="https://pump.fun/coin/7FfepPuVXueEvwJsCrFWXhpZS46KHfZqkNS77FMvpump" target="_blank">
       View Token
-    </a>
-
-    <a class="btn secondary" href="https://x.com/j611840" target="_blank">
-      Follow on X
     </a>
 
     <a class="btn secondary" href="Whitepaper.pdf" target="_blank">
@@ -172,107 +148,90 @@ body {
   </div>
 </div>
 
-<!-- ABOUT -->
-<div class="section" id="about">
-  <h2>Our Mission</h2>
-  <p>
-    BridgeFund connects the power of crypto with the real needs of small businesses.
-    We make it simple, transparent, and impactful.
+<!-- APPLY -->
+<div class="section" id="apply">
+  <h2>Apply for Funding</h2>
+
+  <p style="color:#94a3b8;">
+    Early access — limited businesses selected.
   </p>
 
+  <form id="bf-form" action="https://formspree.io/f/mnjwjydl" method="POST" style="max-width:500px;margin:auto;">
+    
+    <input type="text" name="Business Name" placeholder="Business Name" required>
+    <input type="text" name="Owner Name" placeholder="Owner Name" required>
+    <input type="text" name="Location" placeholder="City / State" required>
+    <input type="text" name="Website" placeholder="Website or Social Media" required>
+    <input type="email" name="Email" placeholder="Contact Email" required>
+    <textarea name="Funding Use" placeholder="What would funding be used for?" required></textarea>
+
+    <!-- SPAM PROTECTION -->
+    <input type="text" name="_gotcha" style="display:none">
+
+    <button class="btn primary" type="submit">Apply</button>
+
+    <div class="success" id="success-msg">
+      ✅ Application submitted. We'll review and reach out if selected.
+    </div>
+
+  </form>
+</div>
+
+<!-- FUNDED -->
+<div class="section" id="funded">
+  <h2>Funded Businesses</h2>
+
   <div class="cards">
-    <div class="card">Support Real Businesses</div>
-    <div class="card">Transparent Process</div>
-    <div class="card">Stronger Communities</div>
-  </div>
-</div>
-
-<!-- HOW -->
-<div class="section" id="how">
-  <h2>How It Works</h2>
-
-  <div class="cards">
     <div class="card">
-      <h3>Phase 1 — Foundation</h3>
-      <p>Token live, building community and preparing platform.</p>
-    </div>
-
-    <div class="card">
-      <h3>Phase 2 — Onboarding</h3>
-      <p>Businesses apply and are reviewed.</p>
-    </div>
-
-    <div class="card">
-      <h3>Phase 3 — Voting</h3>
-      <p>Community helps choose which businesses get funded.</p>
-    </div>
-
-    <div class="card">
-      <h3>Phase 4 — Funding</h3>
-      <p>Crypto converted into real-world capital for businesses.</p>
+      <h3>Coming Soon</h3>
+      <p>First funding in progress.</p>
     </div>
   </div>
 </div>
 
-<!-- ROADMAP -->
-<div class="section" id="roadmap">
-  <div class="split">
-
-    <div class="card">
-      <h3>Where We Are</h3>
-      <p>✔ Token launched</p>
-      <p>✔ Website live</p>
-      <p>🔄 Building community</p>
-    </div>
-
-    <div class="card">
-      <h3>Where We’re Going</h3>
-      <p>1. Onboard businesses</p>
-      <p>2. Launch funding</p>
-      <p>3. Transparency system</p>
-      <p>4. Platform expansion</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- CTA -->
-<div class="section">
-  <h2>Join the Movement</h2>
-  <p>Follow our journey and be part of the change.</p>
-
-  <a class="btn secondary" href="https://x.com/j611840" target="_blank">
-    Follow on X
-  </a>
-</div>
-
- <div class="section">
+<!-- TRANSPARENCY -->
+<div class="section" id="transparency">
   <h2>Transparency</h2>
 
-  <p style="max-width:700px;margin:auto;color:#94a3b8;">
-    BridgeFund is built on transparency. All funding activity is tracked through our public wallet.
-    Anyone can view transactions and follow how funds are used.
+  <p style="color:#94a3b8;">
+    All funding tracked through our public wallet.
   </p>
 
-  <div class="card" style="margin-top:30px;">
-    <h3>Public Treasury Wallet</h3>
-
+  <div class="card">
     <p style="word-break:break-all;color:#38bdf8;">
       58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n
     </p>
 
-    <p>
-      <a href="https://solscan.io/account/58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n" target="_blank" style="color:#38bdf8;">
-        View on Solscan →
-      </a>
-    </p>
+    <a href="https://solscan.io/account/58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n" target="_blank">
+      View on Solscan →
+    </a>
   </div>
-</div> 
+</div>
 
 <!-- FOOTER -->
 <div class="footer">
-  © 2026 BridgeFund — Building in Public
+  © 2026 BridgeFund
 </div>
+
+<script>
+document.getElementById("bf-form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = new FormData(form);
+
+  const response = await fetch(form.action, {
+    method: "POST",
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  });
+
+  if (response.ok) {
+    form.reset();
+    document.getElementById("success-msg").style.display = "block";
+  }
+});
+</script>
 
 </body>
 </html>
