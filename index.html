@@ -91,7 +91,7 @@ input, textarea {
   border:none;
 }
 
-/* SUCCESS MESSAGE */
+/* SUCCESS */
 .success {
   display:none;
   color:#38bdf8;
@@ -118,8 +118,6 @@ input, textarea {
 
   <div>
     <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#how">How It Works</a>
     <a href="#apply">Apply</a>
     <a href="#funded">Funded</a>
     <a href="#transparency">Transparency</a>
@@ -151,13 +149,9 @@ input, textarea {
 <!-- APPLY -->
 <div class="section" id="apply">
   <h2>Apply for Funding</h2>
-
-  <p style="color:#94a3b8;">
-    Early access — limited businesses selected.
-  </p>
+  <p style="color:#94a3b8;">Early access — limited businesses selected.</p>
 
   <form id="bf-form" action="https://formspree.io/f/mnjwjydl" method="POST" style="max-width:500px;margin:auto;">
-    
     <input type="text" name="Business Name" placeholder="Business Name" required>
     <input type="text" name="Owner Name" placeholder="Owner Name" required>
     <input type="text" name="Location" placeholder="City / State" required>
@@ -165,7 +159,6 @@ input, textarea {
     <input type="email" name="Email" placeholder="Contact Email" required>
     <textarea name="Funding Use" placeholder="What would funding be used for?" required></textarea>
 
-    <!-- SPAM PROTECTION -->
     <input type="text" name="_gotcha" style="display:none">
 
     <button class="btn primary" type="submit">Apply</button>
@@ -173,7 +166,6 @@ input, textarea {
     <div class="success" id="success-msg">
       ✅ Application submitted. We'll review and reach out if selected.
     </div>
-
   </form>
 </div>
 
@@ -193,9 +185,7 @@ input, textarea {
 <div class="section" id="transparency">
   <h2>Transparency</h2>
 
-  <p style="color:#94a3b8;">
-    All funding tracked through our public wallet.
-  </p>
+  <p style="color:#94a3b8;">All funding tracked through our public wallet.</p>
 
   <div class="card">
     <p style="word-break:break-all;color:#38bdf8;">
