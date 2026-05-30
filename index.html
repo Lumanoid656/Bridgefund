@@ -3,198 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BridgeFund</title>
-
+<title>BridgeFund Transparency Center</title>
 <style>
-html { scroll-behavior:smooth; }
-
-body {
-  margin:0;
-  font-family:'Segoe UI', sans-serif;
-  background:#020617;
-  color:#fff;
-}
-
-/* NAV */
-.nav {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 40px;
-  position:fixed;
-  width:100%;
-  z-index:10;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(10px);
-}
-.nav-left { display:flex; align-items:center; gap:10px; }
-.nav-left img { width:40px; }
-.nav a { color:#cbd5e1; margin:0 10px; text-decoration:none; }
-.nav a:hover { color:#38bdf8; }
-
-/* HERO */
-.hero {
-  height:100vh;
-  background:url("banner.png") center/cover no-repeat;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  position:relative;
-}
-.overlay {
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-}
-.hero-content { position:relative; z-index:2; }
-
-.hero p { color:#94a3b8; }
-
-/* BUTTONS */
-.btn {
-  display:inline-block;
-  margin:10px;
-  padding:12px 24px;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:bold;
-}
-.primary { background:#2563eb; }
-.secondary { border:1px solid #38bdf8; }
-
-/* SECTIONS */
-.section {
-  padding:80px 20px;
-  text-align:center;
-}
-.cards {
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
-  max-width:1000px;
-  margin:auto;
-}
-.card {
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.08);
-  padding:25px;
-  border-radius:12px;
-}
-
-/* FORM */
-input, textarea {
-  width:100%;
-  padding:10px;
-  margin:10px 0;
-  border-radius:6px;
-  border:none;
-}
-
-/* FOOTER */
-.footer {
-  padding:40px;
-  text-align:center;
-  color:#64748b;
-}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Segoe UI,sans-serif;background:#020617;color:#fff}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;position:fixed;width:100%;box-sizing:border-box;z-index:10;background:rgba(0,0,0,.6);backdrop-filter:blur(10px)}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-left img{width:40px}
+.nav a{color:#cbd5e1;margin:0 10px;text-decoration:none}
+.nav a:hover{color:#38bdf8}
+.hero{height:100vh;background:url('banner.png') center/cover no-repeat;display:flex;align-items:center;justify-content:center;text-align:center;position:relative}
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.65)}
+.hero-content{position:relative;z-index:2;max-width:900px;padding:20px}
+.btn{display:inline-block;margin:10px;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;color:#fff}
+.primary{background:#2563eb}
+.secondary{border:1px solid #38bdf8}
+.section{padding:80px 20px;text-align:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;max-width:1000px;margin:auto}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:25px;border-radius:12px}
+.footer{padding:40px;text-align:center;color:#94a3b8}
 </style>
 </head>
-
 <body>
 
-<!-- NAV -->
 <div class="nav">
-  <div class="nav-left">
-    <img src="logo.png">
-    <strong>BridgeFund</strong>
-  </div>
-
-  <div>
-    <a href="#home">Home</a>
-    <a href="#apply">Apply</a>
-    <a href="#funded">Funded</a>
-    <a href="#transparency">Transparency</a>
-    <a href="Whitepaper.pdf" target="_blank">Whitepaper</a>
-    <a href="https://pump.fun/coin/7FfepPuVXueEvwJsCrFWXhpZS46KHfZqkNS77FMvpump" target="_blank">Token</a>
-    <a href="https://x.com/j611840" target="_blank">X</a>
-  </div>
+<div class="nav-left">
+<img src="logo.png">
+<strong>BridgeFund</strong>
+</div>
+<div>
+<a href="#home">Home</a>
+<a href="#roadmap">Roadmap</a>
+<a href="#ecosystem">BridgeFund AI</a>
+<a href="#transparency">Transparency</a>
+<a href="Whitepaper.pdf" target="_blank">Whitepaper</a>
+<a href="https://x.com/j611840" target="_blank">X</a>
+</div>
 </div>
 
-<!-- HERO -->
 <div class="hero" id="home">
-  <div class="overlay"></div>
+<div class="overlay"></div>
+<div class="hero-content">
+<h1>BridgeFund Transparency Center</h1>
+<p>Building transparency between community, capital, and businesses.</p>
+<p style="color:#38bdf8;">Built on Solana</p>
 
-  <div class="hero-content">
-    <h1>BridgeFund ($BRDG)</h1>
-    <p>Crypto → Real Businesses</p>
-    <p style="color:#38bdf8;">Built on Solana</p>
-
-    <a class="btn primary" href="https://pump.fun/coin/7FfepPuVXueEvwJsCrFWXhpZS46KHfZqkNS77FMvpump" target="_blank">
-      View Token
-    </a>
-
-    <a class="btn secondary" href="Whitepaper.pdf" target="_blank">
-      View Whitepaper
-    </a>
-  </div>
+<a class="btn primary" href="https://bridgefundai.com" target="_blank">Visit BridgeFund AI</a>
+<a class="btn secondary" href="Whitepaper.pdf" target="_blank">View Whitepaper</a>
+</div>
 </div>
 
-<!-- APPLY -->
-<div class="section" id="apply">
-  <h2>Apply for Funding</h2>
-  <p style="color:#94a3b8;">Early access — limited businesses selected.</p>
-
-  <form action="https://formspree.io/f/mnjwjydl" method="POST" style="max-width:500px;margin:auto;">
-    
-    <input type="text" name="Business Name" placeholder="Business Name" required>
-    <input type="text" name="Owner Name" placeholder="Owner Name" required>
-    <input type="text" name="Location" placeholder="City / State" required>
-    <input type="text" name="Website" placeholder="Website or Social Media" required>
-    <input type="email" name="email" placeholder="Contact Email" required>
-    <textarea name="message" placeholder="What would funding be used for?" required></textarea>
-
-    <!-- Spam protection -->
-    <input type="text" name="_gotcha" style="display:none">
-
-    <!-- Optional redirect back to your site -->
-    <input type="hidden" name="_next" value="https://bridgefund.solutions">
-
-    <button class="btn primary" type="submit">Apply</button>
-  </form>
+<div class="section">
+<h2>What Is BridgeFund?</h2>
+<p style="max-width:800px;margin:auto;color:#94a3b8;">
+BridgeFund was created to bridge the gap between innovative funding solutions and real-world businesses.
+BridgeFund AI serves as the primary business platform, while BridgeFund.solutions serves as the transparency and ecosystem hub.
+</p>
 </div>
 
-<!-- FUNDED -->
-<div class="section" id="funded">
-  <h2>Funded Businesses</h2>
-
-  <div class="cards">
-    <div class="card">
-      <h3>Coming Soon</h3>
-      <p>First funding in progress.</p>
-    </div>
-  </div>
+<div class="section" id="roadmap">
+<h2>Roadmap</h2>
+<div class="cards">
+<div class="card">
+<h3>Phase 1</h3>
+<p>BridgeCoin Launch<br>Community Building<br>Transparency Center</p>
+</div>
+<div class="card">
+<h3>Phase 2</h3>
+<p>BridgeFund AI Launch<br>AI Funding Reports<br>Marketplace Development</p>
+</div>
+<div class="card">
+<h3>Phase 3</h3>
+<p>Business Success Stories<br>Rewards Expansion<br>Funding Matching</p>
+</div>
+</div>
 </div>
 
-<!-- TRANSPARENCY -->
+<div class="section" id="ecosystem">
+<h2>BridgeFund AI</h2>
+<p style="max-width:800px;margin:auto;color:#94a3b8;">
+BridgeFund AI helps businesses become funding-ready through artificial intelligence,
+offering funding readiness scoring, AI business analysis, growth recommendations, and future funding opportunity matching.
+</p>
+<br>
+<a class="btn primary" href="https://bridgefundai.com" target="_blank">Visit BridgeFund AI</a>
+</div>
+
+<div class="section">
+<h2>BridgeCoin ($BRDG)</h2>
+<div class="card" style="max-width:700px;margin:auto;">
+<p>BridgeCoin powers participation within the BridgeFund ecosystem.</p>
+<p>Future utility may include community rewards, referrals, participation incentives, governance features, and ecosystem benefits.</p>
+</div>
+</div>
+
 <div class="section" id="transparency">
-  <h2>Transparency</h2>
-
-  <p style="color:#94a3b8;">All funding tracked through our public wallet.</p>
-
-  <div class="card">
-    <p style="word-break:break-all;color:#38bdf8;">
-      58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n
-    </p>
-
-    <a href="https://solscan.io/account/58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n" target="_blank">
-      View on Solscan →
-    </a>
-  </div>
+<h2>Transparency</h2>
+<p style="color:#94a3b8;">Public Treasury Wallet</p>
+<div class="card" style="max-width:800px;margin:auto;">
+<p style="word-break:break-all;color:#38bdf8;">58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n</p>
+<a href="https://solscan.io/account/58eoufK6EH1mUWACjFNcFxxx3MAXrYjLM3RR5ab6Fn7n" target="_blank">View on Solscan →</a>
+</div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  © 2026 BridgeFund
+© 2026 BridgeFund Transparency Center<br><br>
+Building transparency, accountability, and long-term ecosystem growth.<br><br>
+Built on Solana
 </div>
 
 </body>
